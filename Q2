@@ -1,0 +1,31 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define x first
+#define y second
+typedef pair<int,int> PII;
+PII a[100010];
+int q[2][100010];
+int main()
+{
+    int m;
+    cin>>m;
+    for(int i=1;i<=m;++i)
+    {
+        cin>>a[i].x>>a[i].y;
+    }
+    sort(a+1,a+m+1);
+    for(int i=0;i<2;++i)
+    {
+        for(int j=1;j<=m;++j)
+            q[i][j]=q[i][j-1]+(a[j].y==i);
+    }
+    int cnt=-1,res;
+    for(int i=1;i<=m;++i)
+    {
+        int tmp = q[0][i-1]+q[1][m]-q[1][i-1];
+        if(tmp>=cnt) cnt=tmp,res=a[i].x;
+        while(i+1<=m&&a[i].x==a[i+1].x)i++;
+        //如果i+1和当前的first一致，说明这是对同一个阈值的操作，按照 int tmp 公式 应该跳过这个步骤 否则会造成公式错误运算
+    }
+    cout<<res;
+}
