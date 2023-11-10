@@ -1,0 +1,43 @@
+#include <bits/stdc++.h>
+using namespace std;
+int dat[100010];
+int nex[100010];
+int cur=1;
+void add(int pos, int val)
+{
+    dat[cur] = val;//第cur次插入，将插入值val插入到data[cur]
+    nex[cur] = nex[pos];//将第cur次插入的next指针指向为pos的next指针（一般是NULL）
+    nex[pos] = cur ++;//将pos的next指针指向cur cur移动到下一个位置
+}
+void del(int pos)
+{
+    nex[pos]=nex[nex[pos]];//将pos指向下个下一个target 这样下一个指针就被抹除了
+}
+int main()
+{
+    int n;
+    cin>>n;
+    while(n--)
+    {
+        char op;int f,s;
+        cin>>op;
+        if(op=='H')
+        {
+            cin>>s;
+            add(0,s);//将head设作index=0
+        }
+        else if (op=='I')
+        {
+            cin>>f>>s;
+            add(f,s);
+        }
+        else
+        {
+            cin>>s;
+            del(s);
+        }
+    }
+    for(int j=nex[0];j;j=nex[j]) cout<< dat[j] <<' ';
+    cout<<endl;
+    return 0;
+}
